@@ -1,0 +1,46 @@
+== Foomail ==
+----
+
+Uses IMAPClient to connect to an imap mailbox and determine if there are any<br>
+unanswered or otherwise neglected emails.
+
+Helpful links:
+http://tools.ietf.org/html/rfc3501#section-6.4.4
+
+http://imapclient.readthedocs.org/en/latest/
+
+http://docs.python.org/2/library/email.util.html
+
+http://james.apache.org/server/rfclist/imap4/rfc2060.txt
+
+http://stackoverflow.com/questions/13212379/using-imapclient-how-do-you-view-the-senders-address
+
+
+==== Installation ====
+
+Use pip to install requirement packages
+{{{
+pip install -r requirements.txt
+}}}
+
+Set the following environmental variables:
+
+IMAP_HOST:: imap.missouri.edu
+IMAP_USERNAME:: sso@missouri.edu
+IMAP_PASSWORD:: ssopassword
+
+
+_Scratch space notes_
+{{{
+#'Thread-Topic', 'Thread-Index', 'Date', 'Message-ID', 'References', 'In-Reply-To'
+#print client.fetch(m[msg], ['BODY[TEXT]'])
+#print em['Thread-Topic']
+#print em.is_multipart()
+#print em.get_payload()
+
+print em['Date']
+print parseaddr(em['from'])
+#response = client.fetch(messages, ['RFC822'])
+#messages = client.search(['SINCE 18-May-2013 UNANSWERED SUBJECT TEST2'])
+#msg = email.message_from_string(data['RFC822'])
+}}}
