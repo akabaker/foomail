@@ -1,14 +1,15 @@
 from flask import Flask
 from flask.ext import restful
+from foomail import run
 
 app = Flask(__name__)
 api = restful.Api(app)
 
-class hello(restful.Resource):
+class foomail(restful.Resource):
     def get(self):
-        return {'hhi': 'man'}
+        return run()
 
-api.add_resource(hello, '/')
+api.add_resource(foomail, '/')
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -49,7 +49,11 @@ def find_messages(client, messages, regex):
 
     # BODY.PEEK doesn't set SEEN flag (keeps messages unread)
     response = client.fetch(messages, ['BODY.PEEK[]'])
-    results = {'count': 0}
+    #results = {'count': 0}
+    results = {
+        'messages': [],
+        'count': 0,
+    }
 
     for msgid, data in response.iteritems():
         msg = email.message_from_string(data['BODY[]'])
@@ -62,17 +66,22 @@ def find_messages(client, messages, regex):
         if match:
             pass
         else:
-            results[msgid] = {
+            #results[msgid] = {
+            #    'from': from_user, 
+            #    'date': msg['Date'], 
+            #    'subject': msg['subject']
+            #}
+            results['messages'].append({
                 'from': from_user, 
                 'date': msg['Date'], 
                 'subject': msg['subject']
-            }
+            })
             results['count'] += 1
 
     return results
     client.logout()
 
-def main():
+def run():
     host = os.environ['IMAP_HOST']
     username = os.environ['IMAP_USERNAME']
     password = os.environ['IMAP_PASSWORD']
@@ -85,9 +94,10 @@ def main():
     try:
         messages = get_messages(client, folder, flags)
         results = find_messages(client, messages, name_regex)
-        print json.dumps(results, sort_keys=True, indent=4)
+        #return json.dumps(results, sort_keys=True, indent=4)
+        return json.dumps(results)
     except ValueError:
         print 'No messages match %s' % flags
 
-if __name__ == '__main__':
-    main()
+#if __name__ == '__main__':
+#    main()
