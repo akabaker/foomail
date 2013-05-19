@@ -66,11 +66,6 @@ def find_messages(client, messages, regex):
         if match:
             pass
         else:
-            #results[msgid] = {
-            #    'from': from_user, 
-            #    'date': msg['Date'], 
-            #    'subject': msg['subject']
-            #}
             results['messages'].append({
                 'from': from_user, 
                 'date': msg['Date'], 
@@ -86,7 +81,7 @@ def run():
     username = os.environ['IMAP_USERNAME']
     password = os.environ['IMAP_PASSWORD']
     name_regex = re.compile(r'%s' % username, re.IGNORECASE)
-    today = time.strftime('%d-%B-%Y', time.gmtime())
+    today = time.strftime('%d-%B-%Y', time.localtime())
     flags = ['SINCE %s UNANSWERED' % today]
     folder = 'INBOX'
 
@@ -94,10 +89,6 @@ def run():
     try:
         messages = get_messages(client, folder, flags)
         results = find_messages(client, messages, name_regex)
-        #return json.dumps(results, sort_keys=True, indent=4)
-        return json.dumps(results)
+        return results
     except ValueError:
         print 'No messages match %s' % flags
-
-#if __name__ == '__main__':
-#    main()
