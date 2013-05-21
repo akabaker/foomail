@@ -89,6 +89,6 @@ def run():
     try:
         messages = get_messages(client, folder, flags)
         results = find_messages(client, messages, name_regex)
-        return results
+        return sorted(results['messages'], reverse=True)
     except ValueError:
         print 'No messages match %s' % flags
